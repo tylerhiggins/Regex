@@ -4,8 +4,6 @@ import java.util.Stack;
 public class Regex {
 
   public static void main(String[] args){
-
-    // Stack<NFA> nfa_stack = new Stack<NFA>();
     Stack<String> expressions = readRegex();
     for (int i = 0; i < expressions.size(); i++){
       System.out.println(expressions.get(i));
