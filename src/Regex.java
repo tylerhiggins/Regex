@@ -1,16 +1,27 @@
 import java.io.*;
+import java.util.Stack;
 
 public class Regex {
 
   public static void main(String[] args){
+
+    // Stack<NFA> nfa_stack = new Stack<NFA>();
+    Stack<String> expressions = readRegex();
+    for (int i = 0; i < expressions.size(); i++){
+      System.out.println(expressions.get(i));
+    }
+  }
+
+  public static Stack<String> readRegex(){
     String file = "regexpressions.txt";
-    String regex = null;
+    String line = null;
+    Stack<String> regex = new Stack<String>();
 
     try {
       FileReader reader = new FileReader(file);
       BufferedReader buffRead = new BufferedReader(reader);
-      while((regex = buffRead.readLine()) != null){
-        System.out.println(regex);
+      while((line = buffRead.readLine()) != null){
+        regex.push(line);
       }
       reader.close();
     }
@@ -20,7 +31,8 @@ public class Regex {
     catch (IOException iex) {
       iex.printStackTrace();
     }
-    // Stack<NFA> nfa_stack = new Stack<NFA>();
+
+    return regex;
   }
 
 }
