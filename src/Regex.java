@@ -5,8 +5,24 @@ public class Regex {
 
   public static void main(String[] args){
     Stack<String> expressions = readRegex();
+    Stack<NFA> nfa = new Stack<NFA>();
+    NFA fa1;
+    NFA fa2;
+    char c;
     for (int i = 0; i < expressions.size(); i++){
-      System.out.println(expressions.get(i));
+      for(int j = 0; j < expressions.get(i).length(); j++){
+        c = expressions.get(i).charAt(j);
+        if(c == '\n'){
+          break;
+        }
+        else {
+          if (c == '&') {
+            fa1 = nfa.pop();
+            fa2 = nfa.pop();
+            nfa.push()
+          }
+        }
+      }
     }
   }
 
