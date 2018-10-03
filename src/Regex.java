@@ -4,25 +4,11 @@ import java.util.Stack;
 public class Regex {
 
   public static void main(String[] args){
+    // Load up the file and place expressions on the stack
     Stack<String> expressions = readRegex();
-    Stack<NFA> nfa = new Stack<NFA>();
-    NFA fa1;
-    NFA fa2;
-    char c;
     for (int i = 0; i < expressions.size(); i++){
-      for(int j = 0; j < expressions.get(i).length(); j++){
-        c = expressions.get(i).charAt(j);
-        if(c == '\n'){
-          break;
-        }
-        else {
-          if (c == '&') {
-            fa1 = nfa.pop();
-            fa2 = nfa.pop();
-            nfa.push()
-          }
-        }
-      }
+      System.out.println("Transitions for postfix regex " + expressions.get(i)+":");
+      createNFA(expressions.get(i));
     }
   }
 
@@ -47,6 +33,38 @@ public class Regex {
     }
 
     return regex;
+  }
+
+  public static void createNFA(String expression) {
+    char c;
+    Stack<NFA> nfa = new Stack<NFA>();
+    NFA fa1;  // Create two nfa instances
+    NFA fa2;
+    for(int i = 0; i < expression.length(); i++){
+      c = expression.charAt(i);
+      if(c == '\n'){
+        break;
+      }
+      else {
+        if (c == '&') {
+          fa2 = nfa.pop();
+          fa1 = nfa.pop();
+          nfa.push(new NFA(fa1.getStart(), fa2.getFinal(), (fa1.getSymbol()+fa2.getSymbol()));
+        }
+        else if (c == '|'){
+          fa2 = nfa.pop();
+          fa1 = nfa.pop();
+          nfa.push();
+        }
+        else if (c == '*'){
+          fa1 = nfa.pop();
+          nfa.push();
+        }
+        else {
+          nfa.push(new NFA(0,1, Character.toString(c)));
+        }
+      }
+    }
   }
 
 }
