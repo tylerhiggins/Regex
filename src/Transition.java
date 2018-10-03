@@ -3,10 +3,10 @@ import java.util.Stack;
 public class Transition {
   private int state_1;
   private int state_2;
-  private char symbol;
+  private String symbol;
   private Stack<Transition> t_list;
 
-  public Transition(int s1, int s2, char sym){
+  public Transition(int s1, int s2, String sym){
     state_1 = s1;
     state_2 = s2;
     symbol = sym;
@@ -22,7 +22,7 @@ public class Transition {
     return state_2;
   }
 
-  public char getSymbol(){
+  public String getSymbol(){
     return symbol;
   }
 }
