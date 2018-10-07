@@ -1,14 +1,17 @@
 import java.io.*;
 import java.util.Stack;
+import java.util.Scanner;
 
 public class Regex {
 
   public static void main(String[] args){
     // Load up the file and place expressions on the stack
-    Stack<String> expressions = readRegex();
-    for (int i = 0; i < expressions.size(); i++){
-      System.out.println("Transitions for postfix regex " + expressions.get(i)+":");
-      createNFA(expressions.get(i));
+    //Stack<String> expressions = readRegex();
+    Scanner keyboard = new Scanner(System.in);
+    String expressions = keyboard.nextLine();
+    for (int i = 0; i < expressions.length(); i++){
+      System.out.println("Transitions for postfix regex " + expressions+":");
+      createNFA(expressions);
     }
   }
 
@@ -49,7 +52,7 @@ public class Regex {
         if (c == '&') {
           fa2 = nfa.pop();
           fa1 = nfa.pop();
-          nfa.push(new NFA(fa1.getStart(), fa2.getFinal(), (fa1.getSymbol()+fa2.getSymbol()));
+          nfa.push();
         }
         else if (c == '|'){
           fa2 = nfa.pop();

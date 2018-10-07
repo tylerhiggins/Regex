@@ -11,7 +11,6 @@ public class NFA {
     final_s = f;
     symbol = sym;
     t_list = new Stack<Transition>();
-    addTransition(start, final_s, symbol);
   }
 
   public int getStart(){ return start; }
