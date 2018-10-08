@@ -3,7 +3,8 @@
 Created by: Tyler Higgins
 E-mail: tyler.higgins@wsu.edu
 
-This program converts a regular expression from a text file (.txt) to an NFA.  In this implementation, the NFA will be represented as a list of transitions.
+This program converts a regular expression from a text file (.txt) to an NFA.  In this implementation, 
+the NFA will be represented as a list of transitions.
 
 How to build
 
