@@ -9,8 +9,10 @@ public class Regex {
     //Stack<String> expressions = readRegex();
     Scanner keyboard = new Scanner(System.in);
     String expressions = keyboard.nextLine();
-      System.out.println("Transitions for postfix regex " + expressions+":");
+    //for (int i = 0; i < expressions.size();i++) {
+      System.out.println("Transitions for postfix regex " + expressions + ":");
       createNFA(expressions);
+    //}
   }
 
   public static Stack<String> readRegex(){
@@ -53,8 +55,6 @@ public class Regex {
          if ((c < 'a' || c > 'e') && c != 'E' && c != '&' && c != '|' && c != '*'){
           throw new Exception("\nCharacter " + c + " is not part of the language.");
         }
-        System.out.print(c + ", ");
-        /*else {
           if (c == '&') {
             fa2 = nfa.pop();
             fa1 = nfa.pop();
@@ -70,8 +70,7 @@ public class Regex {
               changeState.setState_2(changeState.getState_2()+fa1.getFinal());
               newNFA.t_list.push(changeState);
             }
-
-
+            nfa.push(newNFA);
           }
           else if (c == '|'){
             fa2 = nfa.pop();
@@ -79,23 +78,43 @@ public class Regex {
             //nfa.push();
           }
           else if (c == '*'){
-            fa1 = nfa.pop();
-            //nfa.push();
+            fa2 = nfa.pop();
+            newNFA = new NFA(fa2.getStart(),fa2.getFinal());
+            for (int j = 0; j < fa2.t_list.size(); j++){
+              newNFA.t_list.push(fa2.t_list.get(j));
+            }
+            newNFA.t_list.push(new Transition(newNFA.getFinal(),newNFA.getStart(),'E'));
+            nfa.push(newNFA);
           }
           else {
             newNFA = new NFA(0,1);
-            //newNFA.addTransition(0,1,c);
-           //nfa.push(newNFA);
-
+            newNFA.t_list.push(new Transition(0,1,c));
+           nfa.push(newNFA);
           }
-        }*/
 
       } catch(Exception ex){
         System.out.println(ex.getMessage());
         System.exit(1);
       }
-
     }
-  }
+    for(int j = 0; j < nfa.size(); j++){
+      NFA display = nfa.get(j);
+      for(int i = 0; i < display.t_list.size(); i++){
+        if(display.getStart() == display.t_list.get(i).getState_1()){
+          System.out.println("S (q"+display.t_list.get(i).getState_1()+
+              ", "+ display.t_list.get(i).getSymbol()+") -> q"+display.t_list.get(i).getState_2());
+        }
+        if(display.getFinal() == display.t_list.get(i).getState_1()){
+          System.out.println("F (q"+display.t_list.get(i).getState_1()+
+              ", "+ display.t_list.get(i).getSymbol()+") -> q"+display.t_list.get(i).getState_2());
+        }
+        else{
+          System.out.println("(q"+display.t_list.get(i).getState_1()+
+              ", "+ display.t_list.get(i).getSymbol()+") -> q"+display.t_list.get(i).getState_2());
+        }
+      }
+      System.out.println("F (q"+ display.getFinal()+", E)");
+    }
+    }
 
 }
