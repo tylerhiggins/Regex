@@ -1,14 +1,11 @@
 import java.io.*;
 import java.util.Stack;
-import java.util.Scanner;
 
 public class Regex {
 
   public static void main(String[] args){
     // Load up the file and place expressions on the stack
     Stack<String> expressions = readRegex();
-    //Scanner keyboard = new Scanner(System.in);
-    //String expressions = keyboard.nextLine();
     for (int i = 0; i < expressions.size();i++) {
       System.out.println("Transitions for postfix regex " + expressions.get(i) + ":");
       createNFA(expressions.get(i));
