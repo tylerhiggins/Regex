@@ -6,13 +6,13 @@ public class Regex {
 
   public static void main(String[] args){
     // Load up the file and place expressions on the stack
-    //Stack<String> expressions = readRegex();
-    Scanner keyboard = new Scanner(System.in);
-    String expressions = keyboard.nextLine();
-    //for (int i = 0; i < expressions.size();i++) {
-      System.out.println("Transitions for postfix regex " + expressions + ":");
-      createNFA(expressions);
-    //}
+    Stack<String> expressions = readRegex();
+    //Scanner keyboard = new Scanner(System.in);
+    //String expressions = keyboard.nextLine();
+    for (int i = 0; i < expressions.size();i++) {
+      System.out.println("Transitions for postfix regex " + expressions.get(i) + ":");
+      createNFA(expressions.get(i));
+    }
   }
 
   public static Stack<String> readRegex(){
@@ -75,7 +75,14 @@ public class Regex {
           else if (c == '|'){
             fa2 = nfa.pop();
             fa1 = nfa.pop();
-            //nfa.push();
+            newNFA = new NFA(fa1.getStart(),fa2.getFinal());
+            for(int j = 0; j < fa1.t_list.size(); j++){
+              newNFA.t_list.push(fa1.t_list.get(j));
+            }
+            for(int j = 0; j < fa2.t_list.size(); j++){
+              newNFA.t_list.push(fa2.t_list.get(j));
+            }
+            nfa.push(newNFA);
           }
           else if (c == '*'){
             fa2 = nfa.pop();
@@ -104,7 +111,7 @@ public class Regex {
           System.out.println("S (q"+display.t_list.get(i).getState_1()+
               ", "+ display.t_list.get(i).getSymbol()+") -> q"+display.t_list.get(i).getState_2());
         }
-        if(display.getFinal() == display.t_list.get(i).getState_1()){
+        else if(display.getFinal() == display.t_list.get(i).getState_1()){
           System.out.println("F (q"+display.t_list.get(i).getState_1()+
               ", "+ display.t_list.get(i).getSymbol()+") -> q"+display.t_list.get(i).getState_2());
         }
