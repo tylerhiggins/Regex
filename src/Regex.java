@@ -72,7 +72,7 @@ public class Regex {
           else if (c == '|'){
             fa2 = nfa.pop();
             fa1 = nfa.pop();
-           
+            newFinal =
             nfa.push(newNFA);
           }
           else if (c == '*'){
@@ -91,8 +91,10 @@ public class Regex {
             nfa.push(newNFA);
           }
           else {
-            newNFA = new NFA(0,1);
-            newNFA.t_list.push(new Transition(0,1,c));
+            newNFA = new NFA(0,3);
+            newNFA.t_list.push(new Transition(0,1,'E'));
+            newNFA.t_list.push(new Transition(1,2,c));
+            newNFA.t_list.push(new Transition(2,3,'E'));
            nfa.push(newNFA);
           }
 
