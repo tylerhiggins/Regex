@@ -1,15 +1,15 @@
 # Regex to NFA
 
 Created by: [Tyler Higgins](https://github.com/tylerhiggins)
-E-mail: tyler.higgins@wsu.edu
+  E-mail: tyler.higgins@wsu.edu
 
 ## Description
 
 This program converts a regular expression from a text file (.txt) to an NFA.  In this implementation, the NFA will be represented as a list of transitions.
 
 ## How to build
-1) Use the commmand 'make' to build the java classes in Higgins_Regex directory.
-2) To run, use the command 'make run'.
+1) Use the commmand `make` to build the java classes in Higgins_Regex directory.
+2) To run, use the command `make run`.
 
 
 ## Files:
