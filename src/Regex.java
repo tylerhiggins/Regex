@@ -72,22 +72,22 @@ public class Regex {
           else if (c == '|'){
             fa2 = nfa.pop();
             fa1 = nfa.pop();
-            newNFA = new NFA(fa1.getStart(),fa2.getFinal());
-            for(int j = 0; j < fa1.t_list.size(); j++){
-              newNFA.t_list.push(fa1.t_list.get(j));
-            }
-            for(int j = 0; j < fa2.t_list.size(); j++){
-              newNFA.t_list.push(fa2.t_list.get(j));
-            }
+           
             nfa.push(newNFA);
           }
           else if (c == '*'){
             fa2 = nfa.pop();
-            newNFA = new NFA(fa2.getStart(),fa2.getFinal());
+            newNFA = new NFA(0,0);
+            newNFA.t_list.push(new Transition(0,1,'E'));
             for (int j = 0; j < fa2.t_list.size(); j++){
-              newNFA.t_list.push(fa2.t_list.get(j));
+              changeState = fa2.t_list.get(j);
+              changeState.setState_1(j+1);
+              changeState.setState_2(j+2);
+              newNFA.t_list.push(changeState);
             }
-            newNFA.t_list.push(new Transition(newNFA.getFinal(),newNFA.getStart(),'E'));
+            int finalInd = newNFA.t_list.size()-1;
+            newNFA.t_list.push(new Transition(newNFA.t_list.get(finalInd).getState_2()
+                ,newNFA.getStart(),'E'));
             nfa.push(newNFA);
           }
           else {
