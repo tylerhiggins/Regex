@@ -1,6 +1,6 @@
 # Regex to NFA
 
-Created by: [Tyler Higgins](https://github.com/tylerhiggins)__
+Created by: [Tyler Higgins](https://github.com/tylerhiggins)<br/>
 E-mail: tyler.higgins@wsu.edu
 
 ## Description
