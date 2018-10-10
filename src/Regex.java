@@ -9,11 +9,12 @@ public class Regex {
     for (int i = 0; i < expressions.size();i++) {
       System.out.println("Transitions for postfix regex " + expressions.get(i) + ":");
       createNFA(expressions.get(i));
+      System.out.println();
     }
   }
 
   public static Stack<String> readRegex(){
-    String file = "reg.txt";
+    String file = "regexpressions.txt";
     String line = null;
     Stack<String> regex = new Stack<String>();
 
@@ -72,22 +73,43 @@ public class Regex {
           else if (c == '|'){
             fa2 = nfa.pop();
             fa1 = nfa.pop();
-            //newFinal =
-            //nfa.push(newNFA);
+            int fa1NewLast = 0;
+            int fa2NewLast = 0;
+            newFinal = fa1.getFinal()+fa2.getFinal()+2;
+            newNFA = new NFA(0,newFinal);
+            newNFA.t_list.push(new Transition(0,1,'E'));
+            for (int j = 0; j < fa1.t_list.size();j++){
+              changeState = fa1.t_list.get(j);
+              changeState.setState_1(changeState.getState_1()+1);
+              changeState.setState_2(changeState.getState_2()+1);
+              fa1NewLast = changeState.getState_2();
+              newNFA.t_list.push(changeState);
+            }
+            newNFA.t_list.push(new Transition(fa1NewLast, newFinal,'E'));
+            newNFA.t_list.push(new Transition(0,fa1NewLast+1,'E'));
+            for(int j =0; j < fa2.t_list.size(); j++){
+              changeState = fa2.t_list.get(j);
+              changeState.setState_1(changeState.getState_1()+fa1NewLast+1);
+              changeState.setState_2(changeState.getState_2()+fa1NewLast+1);
+              fa2NewLast = changeState.getState_2();
+              newNFA.t_list.push(changeState);
+            }
+            newNFA.t_list.push(new Transition(fa2NewLast,newFinal,'E'));
+
+            nfa.push(newNFA);
           }
           else if (c == '*'){
             fa2 = nfa.pop();
             newNFA = new NFA(0,0);
             newNFA.t_list.push(new Transition(0,1,'E'));
-            for (int j = 0; j < fa2.t_list.size(); j++){
+            for (int j = 0; j < fa2.t_list.size();j++){
               changeState = fa2.t_list.get(j);
-              changeState.setState_1(j+1);
-              changeState.setState_2(j+2);
+              changeState.setState_1(changeState.getState_1()+1);
+              changeState.setState_2(changeState.getState_2()+1);
               newNFA.t_list.push(changeState);
             }
-            int finalInd = newNFA.t_list.size()-1;
-            newNFA.t_list.push(new Transition(newNFA.t_list.get(finalInd).getState_2()
-                ,newNFA.getStart(),'E'));
+            newNFA.t_list.push(new Transition(newNFA.t_list.get(newNFA.t_list.size()-1).getState_2(),
+                0,'E'));
             nfa.push(newNFA);
           }
           else {
