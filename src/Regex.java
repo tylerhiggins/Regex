@@ -13,7 +13,7 @@ public class Regex {
   }
 
   public static Stack<String> readRegex(){
-    String file = "regexpressions.txt";
+    String file = "reg.txt";
     String line = null;
     Stack<String> regex = new Stack<String>();
 
@@ -55,16 +55,16 @@ public class Regex {
           if (c == '&') {
             fa2 = nfa.pop();
             fa1 = nfa.pop();
-            newFinal = fa1.getFinal()+fa2.getFinal();
-            newNFA = new NFA(0, newFinal);
-            for(int j = 0; j < fa1.t_list.size(); j++){
+            newFinal = fa1.getFinal()+fa2.getFinal()+1;
+            newNFA = new NFA(fa1.getStart(),newFinal);
+            for (int j = 0; j < fa1.t_list.size(); j++){
               newNFA.t_list.push(fa1.t_list.get(j));
-
             }
+            newNFA.t_list.push(new Transition(fa1.getFinal(),fa1.getFinal()+1,'E'));
             for (int j = 0; j < fa2.t_list.size(); j++){
-              changeState = fa2.t_list.get(j);
-              changeState.setState_1(changeState.getState_1()+fa1.getFinal());
-              changeState.setState_2(changeState.getState_2()+fa1.getFinal());
+              changeState = (fa2.t_list.get(j));
+              changeState.setState_1(fa1.getFinal()+1+j);
+              changeState.setState_2(fa1.getFinal()+2+j);
               newNFA.t_list.push(changeState);
             }
             nfa.push(newNFA);
@@ -72,8 +72,8 @@ public class Regex {
           else if (c == '|'){
             fa2 = nfa.pop();
             fa1 = nfa.pop();
-            newFinal =
-            nfa.push(newNFA);
+            //newFinal =
+            //nfa.push(newNFA);
           }
           else if (c == '*'){
             fa2 = nfa.pop();
