@@ -73,16 +73,18 @@ public class Regex {
           else if (c == '|'){
             fa2 = nfa.pop();
             fa1 = nfa.pop();
-            int fa1NewLast = 0;
-            int fa2NewLast = 0;
-            newFinal = fa1.getFinal()+fa2.getFinal()+2;
+            int fa1NewLast = fa1.t_list.size();
+            System.out.println("fa1NewLast = "+fa1NewLast);
+            int fa2NewLast = fa1NewLast+fa2.t_list.size()+1;
+            System.out.println("fa2NewLast = "+fa2NewLast);
+            newFinal = fa2NewLast+1;
+            System.out.println("newFinal = "+newFinal);
             newNFA = new NFA(0,newFinal);
             newNFA.t_list.push(new Transition(0,1,'E'));
             for (int j = 0; j < fa1.t_list.size();j++){
               changeState = fa1.t_list.get(j);
               changeState.setState_1(changeState.getState_1()+1);
               changeState.setState_2(changeState.getState_2()+1);
-              fa1NewLast = changeState.getState_2();
               newNFA.t_list.push(changeState);
             }
             newNFA.t_list.push(new Transition(fa1NewLast, newFinal,'E'));
@@ -91,7 +93,6 @@ public class Regex {
               changeState = fa2.t_list.get(j);
               changeState.setState_1(changeState.getState_1()+fa1NewLast+1);
               changeState.setState_2(changeState.getState_2()+fa1NewLast+1);
-              fa2NewLast = changeState.getState_2();
               newNFA.t_list.push(changeState);
             }
             newNFA.t_list.push(new Transition(fa2NewLast,newFinal,'E'));
